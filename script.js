@@ -14,7 +14,8 @@ let gameState = {
     wrongGuesses: 0,
     maxWrong: 6,
     gameActive: false,
-    usedWords: []
+    usedWords: [],
+    roundNumber: 1
 };
 
 let wordBank = [];
@@ -194,6 +195,9 @@ function startGame() {
     gameState.player1.name = p1Name || 'Player 1';
     gameState.player2.name = p2Name || 'Player 2';
 
+    gameState.roundNumber = 1;
+    updateRoundDisplay();
+    
     document.getElementById('player1Display').textContent = gameState.player1.name;
     document.getElementById('player2Display').textContent = gameState.player2.name;
 
@@ -203,6 +207,11 @@ function startGame() {
 }
 
 function nextRound() {
+    if (gameState.gameActive === false && gameState.currentWord !== '') {
+        gameState.roundNumber++;
+        updateRoundDisplay();
+    }
+    
     if (wordBank.length === 0) {
         alert('No words in the word bank! Add some words first.');
         return;
@@ -276,6 +285,10 @@ function updateWrongLetters() {
 function updateLives() {
     const livesLeft = gameState.maxWrong - gameState.wrongGuesses + 1;
     document.getElementById('livesLeft').textContent = livesLeft;
+}
+
+function updateRoundDisplay() {
+    document.getElementById('roundNumber').textContent = gameState.roundNumber;
 }
 
 function updateHangman() {
