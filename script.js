@@ -110,8 +110,9 @@ function addWord() {
 
 function editWord(index) {
     const newWord = prompt('Edit word:', wordBank[index]);
+    const formattedWord = newWord.trim().toUpperCase();
     if (newWord) {
-        wordBank.splice(index, 1);
+        wordBank[index] = formattedWord;
         saveWordBank();
         displayWordBank();
     }
