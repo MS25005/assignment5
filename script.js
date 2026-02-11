@@ -110,12 +110,38 @@ function addWord() {
 
 function editWord(index) {
     const newWord = prompt('Edit word:', wordBank[index]);
+
+    if (newWord === null) return; // if user presses cancel
+
     const formattedWord = newWord.trim().toUpperCase();
-    if (newWord) {
-        wordBank[index] = formattedWord;
-        saveWordBank();
-        displayWordBank();
+
+    // Check empty
+    if (formattedWord.length === 0) {
+        alert("Word cannot be empty.");
+        return;
     }
+
+    // Check only letters (A-Z)
+    const lettersOnly = /^[A-Z]+$/;
+    if (!lettersOnly.test(formattedWord)) {
+        alert("Word must contain letters only (A-Z). No numbers or special characters allowed.");
+        return;
+    }
+
+    // Check duplicate (excluding current index)
+    const isDuplicate = wordBank.some((word, i) => 
+        word === formattedWord && i !== index
+    );
+
+    if (isDuplicate) {
+        alert("This word already exists in the word bank.");
+        return;
+    }
+
+    wordBank[index] = formattedWord;
+    saveWordBank();
+    displayWordBank();
+
 }
 
 function deleteWord(index) {
